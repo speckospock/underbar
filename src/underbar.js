@@ -85,6 +85,15 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var arr = []; //We create an array to store the return values
+
+    //We can re-use _.each again, like indexOf does, to iterate through collection
+    _.each(collection, function(x, i){
+      //We perform the test on the element, and push it to arr if true
+      if (test(x) === true) { arr.push(x) };
+    });
+
+    return arr;
   };
 
   // Return all elements of an array that don't pass a truth test.
