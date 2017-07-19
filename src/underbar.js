@@ -100,6 +100,9 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    //We simply filter and check if the test comes up false
+    var arr = _.filter(collection, function(x){ return test(x) === false; });
+    return arr;
   };
 
   // Produce a duplicate-free version of the array.
