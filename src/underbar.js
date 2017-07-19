@@ -88,9 +88,9 @@
     var arr = []; //We create an array to store the return values
 
     //We can re-use _.each again, like indexOf does, to iterate through collection
-    _.each(collection, function(x, i){
+    _.each(collection, function(item){
       //We perform the test on the element, and push it to arr if true
-      if (test(x) === true) { arr.push(x) };
+      if (test(item) === true) { arr.push(item) };
     });
 
     return arr;
@@ -101,12 +101,12 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     //We simply filter and check if the test comes up false
-    var arr = _.filter(collection, function(x){ return test(x) === false; });
-    return arr;
+    return _.filter(collection, function(item){ return test(item) === false; });
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+
   };
 
 
@@ -115,6 +115,12 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var arr = []; //We create an array to store return values
+
+    //We use each to call the iterator on each element, then push to arr
+    _.each(collection, function(item) { arr.push(iterator(item)); });
+
+    return arr;
   };
 
   /*
