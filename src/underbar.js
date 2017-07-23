@@ -249,6 +249,15 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    //Nearly identical implementation to extend, except checks the keys to prevent overwriting
+    var passedIn = [...arguments].slice(1,);
+
+    _.each(passedIn, function(element){
+      _.each(element, function(value, key){
+        if((_.contains(Object.keys(obj), key)!== true)) { obj[key] = value; }
+      });
+    });
+    return obj; //Return the extended object
   };
 
 
