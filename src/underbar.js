@@ -207,6 +207,12 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //Same default iterator as every
+    if (iterator === undefined) { iterator = _.identity; }
+    //Use reduce to test if any elements pass, if so return true
+    return _.reduce(collection, function(accum, item){
+      return (accum == true) || (iterator(item) == true) || (typeof(item) === 'string');
+    }, false);
   };
 
 
@@ -229,6 +235,8 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //value, key, collection
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
