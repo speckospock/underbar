@@ -106,7 +106,13 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-
+    var deDuped = []; //don't mutate original array!
+    //We use each to check whether an item is already in deDuped, and add it if not
+    _.each(array, function(item){
+      var found = _.contains(deDuped, item);
+      if (found === false) { deDuped.push(item); }
+    });
+    return deDuped;
   };
 
   // Return the results of applying an iterator to each element.
