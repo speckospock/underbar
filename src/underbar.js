@@ -235,8 +235,15 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    //value, key, collection
-
+    //Get all properties passed in (all args after the first) and store them
+    var passedIn = [...arguments].slice(1,);
+    //Iterate through each key/value pair in each object passed in, and push to obj
+    _.each(passedIn, function(element){
+      _.each(element, function(value, key){
+        obj[key] = value;
+      });
+    });
+    return obj; //Return the extended object
   };
 
   // Like extend, but doesn't ever overwrite a key that already
