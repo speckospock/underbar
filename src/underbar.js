@@ -192,6 +192,15 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    //if iterator isn't passed, set it to identity
+    if (iterator === undefined) { iterator = _.identity; }
+    //map the truthiness of the elements in collection and store it in tested
+    var tested = _.map(collection, function(item){
+      //return true if the item passes the test or is a non-null object
+      return (iterator(item) == true) || (typeof item === 'object' && item !== null);
+    });
+    //if they all passed, return true, else return false
+    return _.reduce(tested, function(x, y){ return x&&y; }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
