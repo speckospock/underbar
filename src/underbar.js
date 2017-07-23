@@ -109,7 +109,6 @@
 
   };
 
-
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
@@ -162,6 +161,13 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    //We use each to iterate through collection. If we're on the first step and
+    //accumulator has not been passed in, we set it to the first value and continue.
+    //Otherwise, we call iterator and store the result as accumulator.
+    _.each(collection, function(item, index){
+      accumulator = (accumulator === undefined && index === 0) ? _.first(collection) : iterator(accumulator, item);
+    });
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
