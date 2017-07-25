@@ -254,7 +254,7 @@
 
     _.each(passedIn, function(element){
       _.each(element, function(value, key){
-        if((_.contains(Object.keys(obj), key)!== true)) { obj[key] = value; }
+        if(_.contains(Object.keys(obj), key)!== true) { obj[key] = value; }
       });
     });
     return obj; //Return the extended object
@@ -301,6 +301,43 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var computed = {};
+    var hash = [];
+
+    return function(){
+      var passedIn = [...arguments];
+      console.log(func, passedIn);
+      var isThere = _.indexOf(hash, passedIn);
+      if(isThere === -1){
+        hash.push(passedIn);
+        isThere = _.indexOf(hash, passedIn);
+        computed[isThere] = func.apply(this, passedIn);
+      }
+      return computed[isThere];
+    };
+
+    /*
+    return function(){
+      var passedIn = [...arguments];
+
+      _.each(arguments, function(thing, index){
+        if (index!==0){ passedIn.push(thing); }
+      });
+
+      if (!(passedIn in computed)) {
+        computed[passedIn] = func.apply(this, passedIn);
+      }
+
+      //console.log(passedIn, computed[passedIn], computed, (passedIn in computed));
+      return computed[passedIn];
+    };
+    */
+    /*
+    _.each(passedIn, function(item){
+      _.defaults(computed, { item : _.once(func, item) });
+    })
+    return computed.item;
+    */
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -310,6 +347,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var passedIn = [...arguments].slice(2,);
+    
+    setTimeout(function(){
+      return func(...passedIn); }, wait);
   };
 
 
