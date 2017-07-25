@@ -66,6 +66,16 @@
     }
   };
 
+  _.arrayEquals = function(arr1, arr2){
+    var isEqual = true;
+    if (arr1.length !== arr2.length) { isEqual = false; }
+
+    _.each(arr1, function(item, index){
+      if (item !== arr2[index]) { isEqual = false; }
+    })
+    return isEqual;
+  }
+
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
@@ -74,11 +84,37 @@
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
 
-    _.each(array, function(item, index) {
-      if (item === target && result === -1) {
-        result = index;
-      }
-    });
+    if(Array.isArray(target)){
+       _.each(array, function(item, index) {
+         if ((_.arrayEquals(item, target)) && result === -1) {
+           result = index;
+         }
+       });
+    } else {
+      _.each(array, function(item, index) {
+        if ((item === target) && result === -1) {
+          result = index;
+        }
+      });
+    }
+
+    /*
+    if(Array.isArray(target)){
+      _.each(array, function(item, index){
+        var isEqual = _.reduce(target, function(x, y){
+          return x && (target[index]===item[index]);
+        },true);
+        if (isEqual && result === -1){
+          result = index;
+        }
+      });
+    } else {
+      _.each(array, function(item, index) {
+        if (item === target && result === -1) {
+          result = index;
+        }
+      });
+    }*/
 
     return result;
   };
@@ -306,10 +342,13 @@
 
     return function(){
       var passedIn = [...arguments];
-      console.log(func, passedIn);
+      console.log(func, passedIn, hash, _.indexOf(hash, passedIn));
       var isThere = _.indexOf(hash, passedIn);
+      if (passedIn.length === 1) {isThere = _.indexOf(hash, passedIn[0])}
+      //console.log(_.indexOf([1, [2, 3]], [2, 3]));
       if(isThere === -1){
-        hash.push(passedIn);
+        if (passedIn.length === 1) { hash.push(passedIn[0]); }
+        else { hash.push(passedIn); }
         isThere = _.indexOf(hash, passedIn);
         computed[isThere] = func.apply(this, passedIn);
       }
@@ -348,7 +387,7 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var passedIn = [...arguments].slice(2,);
-    
+
     setTimeout(function(){
       return func(...passedIn); }, wait);
   };
@@ -365,6 +404,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var theDeck = [...array];
+    var shuffled = [];
+
+    _.each(array, function(){
+      var rand = Math.floor(Math.random()*theDeck.length);
+      shuffled.push(...theDeck.splice(rand, 1));
+    })
+
+    return shuffled;
   };
 
 
