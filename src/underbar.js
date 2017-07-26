@@ -348,7 +348,7 @@
       if (!(_.contains(Object.keys(computed), passedInString))){
         computed[passedInString] = func.apply(this, passedIn);
       }
-      console.log(computed, computed[passedInString]);
+
       return computed[passedInString];
     }
 
