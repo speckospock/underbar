@@ -67,6 +67,8 @@
   };
 
   _.arrayEquals = function(arr1, arr2){
+    //var isEqual = (arr1.length !== arr2.length)? false : true;
+    //if (arr1.length !== arr2.length) { isEqual = false; }
     var isEqual = true;
     if (arr1.length !== arr2.length) { isEqual = false; }
 
@@ -338,45 +340,18 @@
   // instead if possible.
   _.memoize = function(func) {
     var computed = {};
-    var hash = [];
 
     return function(){
       var passedIn = [...arguments];
-      console.log(func, passedIn, hash, _.indexOf(hash, passedIn));
-      var isThere = _.indexOf(hash, passedIn);
-      if (passedIn.length === 1) {isThere = _.indexOf(hash, passedIn[0])}
-      //console.log(_.indexOf([1, [2, 3]], [2, 3]));
-      if(isThere === -1){
-        if (passedIn.length === 1) { hash.push(passedIn[0]); }
-        else { hash.push(passedIn); }
-        isThere = _.indexOf(hash, passedIn);
-        computed[isThere] = func.apply(this, passedIn);
+      var passedInString = passedIn.join('+');
+
+      if (!(_.contains(Object.keys(computed), passedInString))){
+        computed[passedInString] = func.apply(this, passedIn);
       }
-      return computed[isThere];
-    };
+      console.log(computed, computed[passedInString]);
+      return computed[passedInString];
+    }
 
-    /*
-    return function(){
-      var passedIn = [...arguments];
-
-      _.each(arguments, function(thing, index){
-        if (index!==0){ passedIn.push(thing); }
-      });
-
-      if (!(passedIn in computed)) {
-        computed[passedIn] = func.apply(this, passedIn);
-      }
-
-      //console.log(passedIn, computed[passedIn], computed, (passedIn in computed));
-      return computed[passedIn];
-    };
-    */
-    /*
-    _.each(passedIn, function(item){
-      _.defaults(computed, { item : _.once(func, item) });
-    })
-    return computed.item;
-    */
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -427,6 +402,7 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -434,6 +410,7 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -442,6 +419,7 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
